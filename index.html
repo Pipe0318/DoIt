@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e23e43">
+  <meta name="description" content="DoIt: organiza tareas, fechas límite, categorías y recordatorios en un solo lugar.">
+  <title>DoIt — Tu día, bajo control</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" class="svg-icons" aria-hidden="true">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="m9 6 2 2 4-4"/><path d="M9 17h11M9 12h11M3 12h2M3 17h2"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9-9-9Z"/><circle cx="8" cy="8" r="1"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M8 5h11v11"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m12 3 9 16H3l9-16Z"/><path d="M12 9v4M12 16h.01"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 17-1 4 4-1L19 8l-3-3L4 17Z"/><path d="m14 7 3 3"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 4h4M7 7l1 13h8l1-13M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-log-out" viewBox="0 0 24 24"><path d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5M14 16l4-4-4-4M8 12h10"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 2.3 7.7L22 12l-7.7 2.3L12 22l-2.3-7.7L2 12l7.7-2.3L12 2Z"/></symbol>
+  </svg>
+
+  <section class="auth-screen" id="authScreen">
+    <div class="auth-layout">
+      <div class="auth-showcase">
+        <div class="logo logo-light"><span class="logo-mark">d<span>.</span></span><span>DoIt</span></div>
+        <div class="showcase-content"><span class="eyebrow light">MENOS ESTRÉS. MÁS AVANCES.</span><h1>Un gran día empieza con un <em>pequeño plan.</em></h1><p>Tu espacio para poner en orden lo importante, crear hábitos de enfoque y llegar a tiempo a cada meta.</p>
+          <div class="showcase-preview"><div class="preview-top"><span>Mi progreso de hoy</span><svg class="icon"><use href="#i-spark"/></svg></div><strong>Organiza. Enfócate. Logra.</strong><div class="preview-bar"><span></span></div><div class="preview-bottom"><span>Todo empieza con una tarea ✨</span><span>DoIt</span></div></div>
+        </div>
+        <div class="showcase-circles circle-one"></div><div class="showcase-circles circle-two"></div>
+      </div>
+      <div class="auth-side">
+        <div class="mobile-auth-brand logo"><span class="logo-mark">d<span>.</span></span><span>DoIt</span></div>
+        <div class="auth-box">
+          <span class="eyebrow">TU PRODUCTIVIDAD EMPIEZA AQUÍ</span>
+          <h2 id="authHeading">¡Qué bueno verte!</h2><p class="auth-subtitle" id="authSubtitle">Inicia sesión para continuar donde lo dejaste.</p>
+          <div class="auth-tabs" role="tablist" aria-label="Acceso"><button class="auth-tab active" type="button" id="loginTab" role="tab" aria-selected="true">Iniciar sesión</button><button class="auth-tab" type="button" id="registerTab" role="tab" aria-selected="false">Crear cuenta</button></div>
+          <form id="loginForm" class="auth-form" novalidate>
+            <label for="loginEmail">Correo electrónico</label><input id="loginEmail" type="email" autocomplete="email" placeholder="hola@ejemplo.com" required>
+            <label for="loginPassword">Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Tu contraseña" required>
+            <p class="form-error" id="loginError" role="alert" hidden></p><button class="btn btn-primary auth-submit" type="submit">Entrar a DoIt <svg class="icon"><use href="#i-arrow"/></svg></button>
+          </form>
+          <form id="registerForm" class="auth-form" hidden novalidate>
+            <label for="registerName">Tu nombre</label><input id="registerName" type="text" autocomplete="name" maxlength="48" placeholder="¿Cómo te llamas?" required>
+            <label for="registerEmail">Correo electrónico</label><input id="registerEmail" type="email" autocomplete="email" placeholder="hola@ejemplo.com" required>
+            <label for="registerPassword">Contraseña</label><input id="registerPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo 8 caracteres" required>
+            <p class="form-error" id="registerError" role="alert" hidden></p><button class="btn btn-primary auth-submit" type="submit">Crear mi cuenta <svg class="icon"><use href="#i-arrow"/></svg></button>
+          </form>
+          <p class="auth-disclaimer">Versión de demostración: tus datos se guardan solo en este navegador.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="app-screen" id="appScreen" hidden>
+    <aside class="sidebar">
+      <div class="logo"><span class="logo-mark">d<span>.</span></span><span>DoIt</span></div>
+      <span class="sidebar-label">TU ESPACIO</span>
+      <nav class="side-nav" aria-label="Navegación principal">
+        <button type="button" class="nav-link active" data-view="overview"><svg class="icon"><use href="#i-grid"/></svg><span>Resumen</span></button>
+        <button type="button" class="nav-link" data-view="tasks"><svg class="icon"><use href="#i-list"/></svg><span>Mis tareas</span></button>
+        <button type="button" class="nav-link" data-view="calendar"><svg class="icon"><use href="#i-calendar"/></svg><span>Calendario</span></button>
+        <button type="button" class="nav-link" data-view="categories"><svg class="icon"><use href="#i-tag"/></svg><span>Categorías</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="sidebar-tip"><svg class="icon"><use href="#i-spark"/></svg><strong>Un paso a la vez.</strong><p>El progreso real se construye todos los días.</p></div><div class="profile-line"><div class="avatar" id="sidebarAvatar">D</div><div class="profile-details"><strong id="sidebarName">Usuario</strong><span id="sidebarEmail">correo@ejemplo.com</span></div><button type="button" class="icon-button" id="logoutBtn" aria-label="Cerrar sesión" title="Cerrar sesión"><svg class="icon"><use href="#i-log-out"/></svg></button></div></div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar"><div class="heading"><span class="eyebrow" id="topEyebrow">TU PANEL PERSONAL</span><h1 id="topTitle">Resumen</h1><p id="topSubtitle">Un vistazo a todo lo que estás logrando.</p></div><div class="topbar-actions"><div class="notification-anchor"><button type="button" class="icon-button bell-button" id="bellBtn" aria-label="Ver recordatorios" aria-expanded="false"><svg class="icon"><use href="#i-bell"/></svg><span class="notification-dot" id="notificationDot" hidden></span></button><div class="notification-popover" id="notificationPopover" hidden><div class="popover-heading"><strong>Recordatorios</strong><button class="mini-text-btn" id="markReadBtn" type="button">Marcar leídos</button></div><div class="notification-list" id="notificationList"></div><button class="notifications-permission" id="enableNotificationsBtn" type="button">Activar notificaciones del navegador</button></div></div><button class="btn btn-primary top-create" id="newTaskTopBtn" type="button"><svg class="icon"><use href="#i-plus"/></svg><span>Nueva tarea</span></button></div></header>
+
+      <main class="page-content">
+        <section class="page active" data-page="overview">
+          <div class="overview-grid">
+            <div class="main-column"><section class="greeting"><div><p class="greeting-date" id="todayLabel"></p><h2>¡Hola, <span id="greetingName">amigo</span>! <span class="wave">✳</span></h2><p>Lo importante no es hacerlo todo, sino seguir avanzando.</p></div></section>
+              <section class="hero-card"><div class="hero-content"><span class="hero-pill">TU PROGRESO GENERAL <svg class="icon"><use href="#i-arrow"/></svg></span><h3>Haz que cada tarea <br>cuente.</h3><div class="progress-count"><strong id="heroDone">0</strong><span>/ <span id="heroTotal">0</span> completadas</span></div><div class="progress-line"><span id="heroProgress"></span></div><p id="heroProgressText">Tu próximo logro está a un clic de distancia.</p></div><div class="hero-art" aria-hidden="true"><div class="art-orbit a"></div><div class="art-orbit b"></div><div class="art-check"><svg class="icon"><use href="#i-check"/></svg></div></div></section>
+              <div class="stats-grid"><article class="stat-card"><div class="stat-icon stat-red"><svg class="icon"><use href="#i-list"/></svg></div><span>Pendientes</span><strong id="pendingStat">0</strong><p>Por completar</p></article><article class="stat-card"><div class="stat-icon stat-green"><svg class="icon"><use href="#i-check"/></svg></div><span>Completadas</span><strong id="doneStat">0</strong><p>¡Buen trabajo!</p></article><article class="stat-card"><div class="stat-icon stat-peach"><svg class="icon"><use href="#i-alert"/></svg></div><span>Vencidas</span><strong id="overdueStat">0</strong><p>Necesitan atención</p></article></div>
+              <section class="panel task-panel"><div class="panel-header"><div><span class="eyebrow">EN QUÉ ENFOCARTE</span><h3>Próximas tareas</h3></div><button type="button" class="text-link" data-go="tasks">Ver todas <svg class="icon"><use href="#i-arrow"/></svg></button></div><div id="overviewTaskList" class="task-list"></div></section>
+            </div>
+            <div class="right-column"><section class="panel agenda-panel"><div class="panel-header"><div><span class="eyebrow">PLANIFICA TU SEMANA</span><h3>En el radar</h3></div><div class="agenda-icon"><svg class="icon"><use href="#i-calendar"/></svg></div></div><div class="week-strip" id="weekStrip"></div><div class="agenda-subhead">Próximos vencimientos</div><div id="agendaList" class="agenda-list"></div></section><section class="panel category-preview"><div class="panel-header"><div><span class="eyebrow">TODO EN SU LUGAR</span><h3>Tus categorías</h3></div><button type="button" class="round-small-btn" data-go="categories" aria-label="Gestionar categorías"><svg class="icon"><use href="#i-arrow"/></svg></button></div><div id="categoryPreviewList" class="category-preview-list"></div><button type="button" class="soft-add-button" id="newCategoryPreviewBtn"><svg class="icon"><use href="#i-plus"/></svg> Nueva categoría</button></section></div>
+          </div>
+        </section>
+
+        <section class="page" data-page="tasks"><div class="page-intro"><div><h2>Mis tareas</h2><p>Todo lo que necesitas hacer, en un solo lugar.</p></div><span class="total-pill" id="taskPageCount">0 tareas</span></div><div class="panel tasks-page-panel"><div class="filter-row"><label class="search-box"><svg class="icon"><use href="#i-search"/></svg><input id="taskSearch" type="search" placeholder="Buscar tareas…" aria-label="Buscar tareas"></label><select id="statusFilter" aria-label="Filtrar por estado"><option value="all">Todos los estados</option><option value="pending">Pendientes</option><option value="done">Completadas</option><option value="overdue">Vencidas</option></select><select id="categoryFilter" aria-label="Filtrar por categoría"><option value="all">Todas las categorías</option></select></div><div class="task-list" id="allTasksList"></div></div></section>
+
+        <section class="page" data-page="calendar"><div class="page-intro"><div><h2>Tu calendario</h2><p>Visualiza las fechas límite y prepárate con tiempo.</p></div></div><div class="calendar-layout"><div class="panel calendar-card"><div class="calendar-heading"><h3 id="calendarMonthLabel">Mes</h3><div class="calendar-controls"><button class="icon-button" type="button" id="prevMonthBtn" aria-label="Mes anterior"><svg class="icon"><use href="#i-chevron-left"/></svg></button><button class="calendar-today-btn" type="button" id="calendarTodayBtn">Hoy</button><button class="icon-button" type="button" id="nextMonthBtn" aria-label="Mes siguiente"><svg class="icon"><use href="#i-chevron-right"/></svg></button></div></div><div class="calendar-weekdays"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div><div class="calendar-grid" id="calendarGrid"></div></div><div class="panel calendar-day-panel"><div class="panel-header"><div><span class="eyebrow">AGENDA DEL DÍA</span><h3 id="selectedDayLabel">Hoy</h3></div></div><div class="task-list" id="dayTaskList"></div></div></div></section>
+
+        <section class="page" data-page="categories"><div class="page-intro"><div><h2>Mis categorías</h2><p>Crea categorías fijas y organiza tus tareas a tu manera.</p></div><button class="btn btn-primary" type="button" id="newCategoryBtn"><svg class="icon"><use href="#i-plus"/></svg> Nueva categoría</button></div><div class="categories-grid" id="categoriesGrid"></div></section>
+      </main>
+    </div>
+    <nav class="mobile-nav" aria-label="Navegación móvil"><button class="mobile-nav-link active" data-view="overview" type="button"><svg class="icon"><use href="#i-grid"/></svg><span>Inicio</span></button><button class="mobile-nav-link" data-view="tasks" type="button"><svg class="icon"><use href="#i-list"/></svg><span>Tareas</span></button><button class="mobile-add" type="button" id="mobileNewTaskBtn" aria-label="Nueva tarea"><svg class="icon"><use href="#i-plus"/></svg></button><button class="mobile-nav-link" data-view="calendar" type="button"><svg class="icon"><use href="#i-calendar"/></svg><span>Agenda</span></button><button class="mobile-nav-link" data-view="categories" type="button"><svg class="icon"><use href="#i-tag"/></svg><span>Categorías</span></button></nav>
+  </div>
+
+  <dialog id="taskDialog" class="modal-dialog"><form id="taskForm" class="modal-form" novalidate><div class="modal-head"><div><span class="eyebrow">PLANEA TU PRÓXIMO PASO</span><h2 id="taskDialogTitle">Nueva tarea</h2></div><button class="icon-button" type="button" data-close-dialog="taskDialog" aria-label="Cerrar"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="modal-body"><label for="taskTitle">¿Qué tienes que hacer? <span class="required">*</span></label><input id="taskTitle" type="text" maxlength="110" placeholder="Ej.: Terminar entrega del proyecto" required><label for="taskDescription">Descripción <span class="optional">(opcional)</span></label><textarea id="taskDescription" rows="2" maxlength="500" placeholder="Agrega más detalles si quieres…"></textarea><div class="field-row"><div><label for="taskCategory">Categoría <span class="required">*</span></label><select id="taskCategory" required></select></div><div><label for="taskPriority">Prioridad</label><select id="taskPriority"><option value="medium">Media</option><option value="high">Alta</option><option value="low">Baja</option></select></div></div><div class="field-row"><div><label for="taskDate">Fecha límite <span class="required">*</span></label><input id="taskDate" type="date" required></div><div><label for="taskTime">Hora límite <span class="required">*</span></label><input id="taskTime" type="time" required></div></div><fieldset class="reminder-fieldset"><legend><svg class="icon"><use href="#i-bell"/></svg> Recordatorios <span class="optional">(elige varios)</span></legend><div class="reminder-presets" id="reminderPresets"><label class="reminder-choice"><input type="checkbox" value="0"><span>Al vencer</span></label><label class="reminder-choice"><input type="checkbox" value="15"><span>15 min antes</span></label><label class="reminder-choice"><input type="checkbox" value="30"><span>30 min antes</span></label><label class="reminder-choice"><input type="checkbox" value="60"><span>1 hora antes</span></label><label class="reminder-choice"><input type="checkbox" value="180"><span>3 horas antes</span></label><label class="reminder-choice"><input type="checkbox" value="360"><span>6 horas antes</span></label><label class="reminder-choice"><input type="checkbox" value="720"><span>12 horas antes</span></label><label class="reminder-choice"><input type="checkbox" value="1440"><span>1 día antes</span></label><label class="reminder-choice"><input type="checkbox" value="2880"><span>2 días antes</span></label><label class="reminder-choice"><input type="checkbox" value="4320"><span>3 días antes</span></label><label class="reminder-choice"><input type="checkbox" value="10080"><span>1 semana antes</span></label><label class="reminder-choice"><input type="checkbox" value="20160"><span>2 semanas antes</span></label></div><div class="custom-reminder"><span>Personalizado</span><div class="custom-reminder-controls"><input id="customReminderAmount" type="number" min="1" max="365" value="4" aria-label="Cantidad de tiempo"><select id="customReminderUnit" aria-label="Unidad de tiempo"><option value="1">Minutos</option><option value="60" selected>Horas</option><option value="1440">Días</option><option value="10080">Semanas</option></select><button id="addCustomReminderBtn" type="button" class="btn btn-outline">Añadir</button></div><div id="customReminderList" class="custom-reminders-list"></div></div><p class="field-hint">Los avisos se muestran en DoIt mientras esté abierto. Las notificaciones del sistema requieren permiso del navegador.</p></fieldset><p class="form-error" id="taskFormError" role="alert" hidden></p></div><div class="modal-footer"><button type="button" class="btn btn-quiet" data-close-dialog="taskDialog">Cancelar</button><button class="btn btn-primary" type="submit" id="saveTaskBtn">Crear tarea</button></div></form></dialog>
+
+  <dialog id="categoryDialog" class="modal-dialog small-dialog"><form id="categoryForm" class="modal-form" novalidate><div class="modal-head"><div><span class="eyebrow">CREA TU PROPIO ORDEN</span><h2 id="categoryDialogTitle">Nueva categoría</h2></div><button class="icon-button" type="button" data-close-dialog="categoryDialog" aria-label="Cerrar"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="modal-body"><label for="categoryName">Nombre de la categoría <span class="required">*</span></label><input id="categoryName" type="text" maxlength="28" required placeholder="Ej.: Universidad"><label for="categoryColor">Color de identificación</label><div class="color-picker-row"><input type="color" id="categoryColor" value="#e23e43" aria-label="Elegir color"><div class="color-swatches"><button type="button" class="swatch" data-color="#e23e43" style="--swatch:#e23e43" aria-label="Rojo"></button><button type="button" class="swatch" data-color="#5b82d5" style="--swatch:#5b82d5" aria-label="Azul"></button><button type="button" class="swatch" data-color="#24a68a" style="--swatch:#24a68a" aria-label="Verde"></button><button type="button" class="swatch" data-color="#a779db" style="--swatch:#a779db" aria-label="Morado"></button><button type="button" class="swatch" data-color="#eb9b4b" style="--swatch:#eb9b4b" aria-label="Naranja"></button></div></div><p class="form-error" id="categoryFormError" role="alert" hidden></p></div><div class="modal-footer"><button type="button" class="btn btn-quiet" data-close-dialog="categoryDialog">Cancelar</button><button type="submit" class="btn btn-primary">Guardar categoría</button></div></form></dialog>
+
+  <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
+</body>
+</html>
